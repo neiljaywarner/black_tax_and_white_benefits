@@ -33,6 +33,24 @@ class Post {
     int id = json['id'];
     String excerpt = json['excerpt']['rendered'] ?? "";
     String title = json['title']['rendered'];
+    String imageUrl = '';
+
+    if (json.containsKey('_embedded')) {
+      print("has embedded");
+      Map<String, dynamic> embedded = json['_embedded'];
+      if (embedded.containsKey('wp:featuredmedia')) {
+        List<dynamic> media = embedded['wp:featuredmedia'];
+        print('length of media=${media.length}');
+        if (media.isNotEmpty) {
+          imageUrl = media.first['source_url'];
+        }
+      }
+    }
+
+
+
+    //
+
     title = HtmlUnescape().convert(title);
     excerpt = HtmlUnescape().convert(excerpt);
     content = HtmlUnescape().convert(content);
@@ -41,7 +59,7 @@ class Post {
       title: title,
       excerpt: excerpt,
       link: json['link'],
-      imageUrl: json['jetpack_featured_media_url'],
+      imageUrl: imageUrl,
       content: content
     );
   }

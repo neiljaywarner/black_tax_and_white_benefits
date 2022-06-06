@@ -13,7 +13,7 @@ import 'Post.dart';
 import 'article_detail.dart';
 
 Future<List<Post>> fetchPost() async {
-  final response = await http.get(Uri.http('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?per_page=100'));
+  final response = await http.get(Uri.http('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?_embed=true&per_page=100'));
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
