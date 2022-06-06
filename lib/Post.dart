@@ -36,20 +36,15 @@ class Post {
     String imageUrl = '';
 
     if (json.containsKey('_embedded')) {
-      print("has embedded");
       Map<String, dynamic> embedded = json['_embedded'];
       if (embedded.containsKey('wp:featuredmedia')) {
         List<dynamic> media = embedded['wp:featuredmedia'];
-        print('length of media=${media.length}');
         if (media.isNotEmpty) {
           imageUrl = media.first['source_url'];
         }
       }
     }
 
-
-
-    //
 
     title = HtmlUnescape().convert(title);
     excerpt = HtmlUnescape().convert(excerpt);
