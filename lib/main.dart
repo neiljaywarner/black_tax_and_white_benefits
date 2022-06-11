@@ -13,7 +13,7 @@ import 'Post.dart';
 import 'article_detail.dart';
 
 Future<List<Post>> fetchPost() async {
-  final response = await http.get(Uri.http('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?_embed=true&per_page=100'));
+  final response = await http.get(Uri.https('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?_embed=true&per_page=100'));
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
@@ -160,11 +160,11 @@ class PostCard extends StatelessWidget {
 class AboutPage extends StatelessWidget {
 
   final resourcesHtml = '''
-  <img src="http://gordonferguson.org/wp-content/uploads/2016/11/Final-Main-Header.jpg"/>
+  <img src="https://gordonferguson.org/wp-content/uploads/2016/11/Final-Main-Header.jpg"/>
   <ul>
     <li><a href='http://gordonferguson.org'>gordonferguson.org</a></li>
     <li><a href="https://ipibooks.ecwid.com/#!/Gordon-Ferguson/c/18671194/offset=0&sort=nameAsc">Books, videos (ipi)</a></li>
-    <li><a href="mailto://gordonferguson33@gmail.com">Contact</a></li>
+    <li><a href="mailto:gordonferguson33@gmail.com">Contact</a></li>
     </a></li>
     </ul>
     ''';
