@@ -13,7 +13,11 @@ import 'Post.dart';
 import 'article_detail.dart';
 
 Future<List<Post>> fetchPost() async {
-  final response = await http.get(Uri.https('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?_embed=true&per_page=100'));
+  //Uri uri = Uri.https('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?per_page=100&_embed=true');
+  Map<String, String> queryParameters = {'per_page': '100', "_embed": 'true'};
+  Uri uri = Uri.https('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts', queryParameters);
+
+  final http.Response response = await http.get(uri);
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
@@ -21,7 +25,8 @@ Future<List<Post>> fetchPost() async {
   } else {
     // If that call was not successful, throw an error.
     //todo: fimber and crashlytics
-    throw Exception('Failed to load posts');
+    String message= response.reasonPhrase ?? 'unknown error';
+    throw Exception( message);
   }
 }
 
@@ -79,11 +84,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  void _onItemTapped(int index) => setState(() => _selectedIndex = index);
 }
 
 class ArticleFutureBuilder extends StatelessWidget {
