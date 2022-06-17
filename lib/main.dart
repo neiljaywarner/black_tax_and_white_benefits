@@ -96,8 +96,7 @@ class ArticleFutureBuilder extends StatelessWidget {
   final Future<List<Post>> posts;
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Post>>(
+  Widget build(BuildContext context) => FutureBuilder<List<Post>>(
       future: posts,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
@@ -122,7 +121,6 @@ class ArticleFutureBuilder extends StatelessWidget {
         }
       },
     );
-  }
 }
 
 class PostCard extends StatelessWidget {
