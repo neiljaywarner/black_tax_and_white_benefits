@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -158,7 +159,7 @@ class PostCard extends StatelessWidget {
 
 class AboutPage extends StatelessWidget {
 
-  final resourcesHtml = '''
+  String resourcesHtml = '''
   <img src="https://gordonferguson.org/wp-content/uploads/2016/11/Final-Main-Header.jpg"/>
   <ul>
     <li><a href='http://gordonferguson.org'>gordonferguson.org</a></li>
@@ -168,8 +169,22 @@ class AboutPage extends StatelessWidget {
     </ul>
     ''';
 
+
   @override
   Widget build(BuildContext context) {
+    if (Platform.isFuchsia) {
+      // picture doesn't't work on ios, probably fine to remove
+      resourcesHtml = '''
+  <ul>
+    <li><a href='http://gordonferguson.org'>gordonferguson.org</a></li>
+    <li><a href="https://ipibooks.ecwid.com/#!/Gordon-Ferguson/c/18671194/offset=0&sort=nameAsc">Books, videos (ipi)</a></li>
+    <li><a href="mailto:gordonferguson33@gmail.com">Contact</a></li>
+    </a></li>
+    </ul>
+    ''';
+
+
+    }
 
     return Container(
       padding: EdgeInsets.all(12),
