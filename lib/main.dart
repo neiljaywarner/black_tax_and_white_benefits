@@ -161,9 +161,9 @@ class AboutPage extends StatelessWidget {
 
   String resourcesHtml = '''
   <img src="https://gordonferguson.org/wp-content/uploads/2016/11/Final-Main-Header.jpg"/>
-  <ul>
-    <li><a href='http://gordonferguson.org'>gordonferguson.org</a></li>
-    <li><a href="https://ipibooks.ecwid.com/#!/Gordon-Ferguson/c/18671194/offset=0&sort=nameAsc">Books, videos (ipi)</a></li>
+   <ul>
+    <li><a href='https://gordonferguson.org'>gordonferguson.org</a></li>
+    <li><a href="https://www.ipibooks.com/collections/gordon-ferguson">Books, audio, videos (IPI)</a></li>
     <li><a href="mailto:gordonferguson33@gmail.com">Contact</a></li>
     </a></li>
     </ul>
@@ -171,24 +171,8 @@ class AboutPage extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
-    if (Platform.isFuchsia) {
-      // picture doesn't't work on ios, probably fine to remove
-      resourcesHtml = '''
-  <ul>
-    <li><a href='http://gordonferguson.org'>gordonferguson.org</a></li>
-    <li><a href="https://ipibooks.ecwid.com/#!/Gordon-Ferguson/c/18671194/offset=0&sort=nameAsc">Books, videos (ipi)</a></li>
-    <li><a href="mailto:gordonferguson33@gmail.com">Contact</a></li>
-    </a></li>
-    </ul>
-    ''';
-
-
-    }
-
-    return Container(
-      padding: EdgeInsets.all(12),
+  Widget build(BuildContext context) => Container(
+      padding: const EdgeInsets.all(12),
       child: Html(data: resourcesHtml, onLinkTap: (String? url, _, __, ___) => launch(url!, forceSafariVC: false),),
     );
-  }
 }
