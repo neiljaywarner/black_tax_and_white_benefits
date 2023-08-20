@@ -11,7 +11,7 @@ import 'Post.dart';
 class DetailScreen extends StatefulWidget {
   final Post post;
 
-  DetailScreen({Key? key, required this.post}) : super(key: key);
+  const DetailScreen({Key? key, required this.post}) : super(key: key);
 
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -46,11 +46,11 @@ class _DetailScreenState extends State<DetailScreen> {
               title: const Text("Black Tax White Benefits"),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.share),
+                  icon: const Icon(Icons.share),
                   onPressed: () => Share.share(_shareMessage),
                 ),
                 IconButton(
-                  icon: isFavorite ? Icon(Icons.star) : Icon(Icons.star_border),
+                  icon: isFavorite ? const Icon(Icons.star) : const Icon(Icons.star_border),
                   onPressed: () => toggleFavorite(widget.post, isFavorite),
                   // TODO: border star if already favorites
                 ),
@@ -63,17 +63,17 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: <Widget>[
                         CachedNetworkImage(
                           imageUrl: widget.post.imageUrl ?? '',
-                          placeholder: (context, url) => CircularProgressIndicator(),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
                           errorWidget: (context, url, error) => Image.network('http://blacktaxandwhitebenefits.com/wp-content/uploads/2016/11/hand-1917895_1920.jpg'),
                         ),
                         Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: new Text(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
                               widget.post.title ?? '',
-                              style: new TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16.0, fontWeight: FontWeight.bold),
                             )),
-                        Padding(padding: EdgeInsets.all(16.0), child: Html(data: widget.post.content)),
+                        Padding(padding: const EdgeInsets.all(16.0), child: Html(data: widget.post.content)),
                       ],
                     ),
                   )

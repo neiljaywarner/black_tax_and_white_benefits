@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,7 @@ void main() => runApp(MyApp(posts: fetchPost(), key: null,));
 class MyApp extends StatefulWidget {
   final Future<List<Post>> posts;
 
-  MyApp({Key? key, required this.posts}) : super(key: key);
+  const MyApp({Key? key, required this.posts}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -68,18 +67,18 @@ class _MyAppState extends State<MyApp> {
       title: 'Black Tax White Benefits',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: Scaffold(
-        appBar: AppBar(title: Text('Black Tax White Benefits')),
+        appBar: AppBar(title: const Text('Black Tax White Benefits')),
         body: Center(
           child: _buildFavoritesWidget(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorites'),
             BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
           ],
           currentIndex: _selectedIndex,
-          fixedColor: Theme.of(context).accentColor,
+          fixedColor: Theme.of(context).colorScheme.secondary,
           onTap: _onItemTapped,
         ),
       ),
@@ -102,7 +101,7 @@ class ArticleFutureBuilder extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           debugPrint("Connection state not done");
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         debugPrint("Connection state done");
 
@@ -111,14 +110,14 @@ class ArticleFutureBuilder extends StatelessWidget {
           return ListView.builder(
               itemCount: snapshot.data?.length,
               padding: const EdgeInsets.all(8.0),
-              itemBuilder: (BuildContext _context, int i) => PostCard(post: snapshot.data![i])
+              itemBuilder: (BuildContext context, int i) => PostCard(post: snapshot.data![i])
           );
         } else if (snapshot.hasError) {
           debugPrint("Has Error ${snapshot.error}");
-          return Center(child:Text('No articles or error loading articles.'));
+          return const Center(child:Text('No articles or error loading articles.'));
         } else {
           debugPrint("No favorites");
-          return Center(child:Text('Star an article an it will show up here!'));
+          return const Center(child:Text('Star an article an it will show up here!'));
         }
       },
     );
@@ -128,7 +127,7 @@ class PostCard extends StatelessWidget {
 
   final Post post;
 
-  PostCard({Key? key, required this.post}) : super(key: key);
+  const PostCard({Key? key, required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +139,8 @@ class PostCard extends StatelessWidget {
           children: <Widget>[
             CachedNetworkImage(
               imageUrl: post.imageUrl ?? '',
-              placeholder: (context, url) => new CircularProgressIndicator(),
-              errorWidget: (context, url, error) => new Image.network('http://blacktaxandwhitebenefits.com/wp-content/uploads/2016/11/hand-1917895_1920.jpg'),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Image.network('http://blacktaxandwhitebenefits.com/wp-content/uploads/2016/11/hand-1917895_1920.jpg'),
             ),
             Padding(
               padding: const EdgeInsets.only(top:8),
@@ -168,6 +167,8 @@ class AboutPage extends StatelessWidget {
     </a></li>
     </ul>
     ''';
+
+  AboutPage({super.key});
 
 
   @override
