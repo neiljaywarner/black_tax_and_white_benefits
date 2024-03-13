@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter_html/flutter_html.dart';
@@ -17,7 +19,6 @@ class DetailScreen extends StatefulWidget {
   _DetailScreenState createState() => _DetailScreenState();
 }
 
-
 class _DetailScreenState extends State<DetailScreen> {
   var _shareMessage;
   List<String> favorites = <String>[];
@@ -26,10 +27,10 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   void initState() {
-    _shareMessage = "Check out this article '${widget.post.title}'\n${widget.post.link}";
+    _shareMessage =
+        "Check out this article '${widget.post.title}'\n${widget.post.link}";
 
     super.initState();
-
   }
 
   @override
@@ -50,38 +51,46 @@ class _DetailScreenState extends State<DetailScreen> {
                   onPressed: () => Share.share(_shareMessage),
                 ),
                 IconButton(
-                  icon: isFavorite ? const Icon(Icons.star) : const Icon(Icons.star_border),
+                  icon: isFavorite
+                      ? const Icon(Icons.star)
+                      : const Icon(Icons.star_border),
                   onPressed: () => toggleFavorite(widget.post, isFavorite),
                   // TODO: border star if already favorites
                 ),
               ]),
           body: SingleChildScrollView(
               child: Column(
-                children: <Widget>[
-                  Card(
-                    child: Column(
-                      children: <Widget>[
-                        CachedNetworkImage(
-                          imageUrl: widget.post.imageUrl ?? '',
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Image.network('http://blacktaxandwhitebenefits.com/wp-content/uploads/2016/11/hand-1917895_1920.jpg'),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              widget.post.title ?? '',
-                              style: const TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            )),
-                        Padding(padding: const EdgeInsets.all(16.0), child: Html(data: widget.post.content)),
-                      ],
+            children: <Widget>[
+              Card(
+                child: Column(
+                  children: <Widget>[
+                    CachedNetworkImage(
+                      imageUrl: widget.post.imageUrl ?? '',
+                      progressIndicatorBuilder: (context, url, progress) =>
+                          progress.progress == null
+                              ? const SizedBox()
+                              : const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Image.network(
+                        'http://blacktaxandwhitebenefits.com/wp-content/uploads/2016/11/hand-1917895_1920.jpg',
+                      ),
                     ),
-                  )
-                ],
-              )),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.post.title ?? '',
+                          style: const TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.bold),
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Html(data: widget.post.content)),
+                  ],
+                ),
+              )
+            ],
+          )),
         );
-      }
-    );
+      });
 
   void toggleFavorite(Post post, bool isCurrentlyFavorite) async {
     if (isCurrentlyFavorite) {
@@ -90,7 +99,7 @@ class _DetailScreenState extends State<DetailScreen> {
       await DBProvider.db.favorite(post);
     }
     setState(() {
-      print("rebuilding after toggling favorite");
+      log("rebuilding after toggling favorite");
       // just rebuild, it will update the star.
     });
   }
