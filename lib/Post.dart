@@ -5,8 +5,10 @@ class PostResponse {
 
   PostResponse(this.posts);
 
-  factory PostResponse.fromJson(List<dynamic> parsedJson) => PostResponse(parsedJson.map((i)=>Post.fromJson(i)).toList());
-  static List<Post> getPosts(List<dynamic> parsedJson) => PostResponse.fromJson(parsedJson).posts;
+  factory PostResponse.fromJson(List<dynamic> parsedJson) =>
+      PostResponse(parsedJson.map((i) => Post.fromJson(i)).toList());
+  static List<Post> getPosts(List<dynamic> parsedJson) =>
+      PostResponse.fromJson(parsedJson).posts;
 }
 
 class Post {
@@ -17,7 +19,13 @@ class Post {
   final String? imageUrl;
   final String? content;
 
-  Post({required this.id, required this.excerpt, required this.title, required this.link, required this.imageUrl, required this.content});
+  Post(
+      {required this.id,
+      required this.excerpt,
+      required this.title,
+      required this.link,
+      required this.imageUrl,
+      required this.content});
 
   // TODO: Consider when to embed if ever?
   // eg is jetpack_featured_media_url good enough
@@ -28,7 +36,6 @@ class Post {
     content = content.replaceAll("</em>", "'");
     content = content.replaceAll("<sup>", "");
     content = content.replaceAll("</sup>", "");
-
 
     int id = json['id'];
     String excerpt = json['excerpt']['rendered'] ?? "";
@@ -45,18 +52,16 @@ class Post {
       }
     }
 
-
     title = HtmlUnescape().convert(title);
     excerpt = HtmlUnescape().convert(excerpt);
     content = HtmlUnescape().convert(content);
     return Post(
-      id: id,
-      title: title,
-      excerpt: excerpt,
-      link: json['link'],
-      imageUrl: imageUrl,
-      content: content
-    );
+        id: id,
+        title: title,
+        excerpt: excerpt,
+        link: json['link'],
+        imageUrl: imageUrl,
+        content: content);
   }
 
   Map<String, dynamic> toMap() => {
@@ -74,6 +79,5 @@ class Post {
       excerpt: map['excerpt'],
       link: map['link'],
       imageUrl: map['imageUrl'],
-      content: map['content']
-    );
+      content: map['content']);
 }

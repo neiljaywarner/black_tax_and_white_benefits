@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -24,11 +25,13 @@ class DBProvider {
     final db = await database;
     var results = await db.query("favorites");
     if (results.isEmpty) {
-      print("favorites table in db is empty");
+      log("favorites table in db is empty");
     } else {
-      print("Found ${results.length} favorites");
+      log("Found ${results.length} favorites");
     }
-    return results.isNotEmpty ? results.map((c) => Post.fromMap(c)).toList() : [];
+    return results.isNotEmpty
+        ? results.map((c) => Post.fromMap(c)).toList()
+        : [];
   }
 
   Future favorite(Post favorite) async {
@@ -41,15 +44,14 @@ class DBProvider {
     await db.delete("favorites", where: 'id = ?', whereArgs: [post.id]);
   }
 
-
   //fixme
-  Future<bool> isFavorite(Post post) async => ((await getNote(post.id)) != null);
+  Future<bool> isFavorite(Post post) async =>
+      ((await getNote(post.id)) != null);
 
   Future<Post?> getNote(int id) async {
     var dbClient = await database;
-    List<Map<String,dynamic>> result = await dbClient.query("favorites",
-        where: 'id = ?',
-        whereArgs: [id]);
+    List<Map<String, dynamic>> result =
+        await dbClient.query("favorites", where: 'id = ?', whereArgs: [id]);
 
     if (result.isNotEmpty) {
       return Post.fromMap(result.first);
@@ -61,10 +63,9 @@ class DBProvider {
   Future initDB() async {
     var databasePath = await getDatabasesPath();
     String path = join(databasePath, "posts.db");
-    return await openDatabase(path, version: 1, onOpen: (db) {
-    }, onCreate: (Database db, int version) async {
-      await db.execute(
-        '''
+    return await openDatabase(path, version: 1, onOpen: (db) {},
+        onCreate: (Database db, int version) async {
+      await db.execute('''
         CREATE TABLE favorites (
           id INTEGER PRIMARY KEY,
           title TEXT,
@@ -72,17 +73,9 @@ class DBProvider {
           link TEXT,
           imageUrl TEXT,
           content TEXT)
-          '''
-      );
-
+          ''');
     });
-
-
   }
-
-
-
-  
 
   // CRUD - create, retrieve
 // factory Post.fromMap(Map<String, dynamic> map) => Post(
@@ -93,4 +86,3 @@ class DBProvider {
 //      content: map['content']
 //    );
 }
-
