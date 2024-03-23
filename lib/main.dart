@@ -4,7 +4,6 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -16,8 +15,7 @@ import 'article_detail.dart';
 Future<List<Post>> fetchPost() async {
   //Uri uri = Uri.https('blacktaxandwhitebenefits.com','/wp-json/wp/v2/posts?per_page=100&_embed=true');
   Map<String, String> queryParameters = {'per_page': '100', "_embed": 'true'};
-  Uri uri = Uri.https(
-      'blacktaxandwhitebenefits.com', '/wp-json/wp/v2/posts', queryParameters);
+  Uri uri = Uri.https('blacktaxandwhitebenefits.com', '/wp-json/wp/v2/posts', queryParameters);
 
   final http.Response response = await http.get(uri);
 
@@ -72,15 +70,15 @@ class _MyAppState extends State<MyApp> {
         title: 'Black Tax White Benefits',
         theme: ThemeData(primarySwatch: Colors.blue),
         home: Scaffold(
-          appBar: AppBar(title: const Text('Black Tax White Benefits')),
+          appBar:
+              AppBar(backgroundColor: Colors.green, title: const Text('Black Tax White Benefits')),
           body: Center(
             child: _buildFavoritesWidget(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.star), label: 'Favorites'),
+              BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorites'),
               BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
             ],
             currentIndex: _selectedIndex,
@@ -116,16 +114,13 @@ class ArticleFutureBuilder extends StatelessWidget {
             return ListView.builder(
                 itemCount: snapshot.data?.length,
                 padding: const EdgeInsets.all(8.0),
-                itemBuilder: (BuildContext context, int i) =>
-                    PostCard(post: snapshot.data![i]));
+                itemBuilder: (BuildContext context, int i) => PostCard(post: snapshot.data![i]));
           } else if (snapshot.hasError) {
             debugPrint("Has Error ${snapshot.error}");
-            return const Center(
-                child: Text('No articles or error loading articles.'));
+            return const Center(child: Text('No articles or error loading articles.'));
           } else {
             debugPrint("No favorites");
-            return const Center(
-                child: Text('Star an article an it will show up here!'));
+            return const Center(child: Text('Star an article an it will show up here!'));
           }
         },
       );
@@ -140,17 +135,15 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     log('**** url = ${post.imageUrl}');
     return InkWell(
-      onTap: () => Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DetailScreen(post: post))),
+      onTap: () => Navigator.push(
+          context, MaterialPageRoute(builder: (context) => DetailScreen(post: post))),
       child: Card(
         child: Column(
           children: <Widget>[
             CachedNetworkImage(
               imageUrl: post.imageUrl ?? '',
               progressIndicatorBuilder: (context, url, progress) =>
-                  progress.progress == null
-                      ? const SizedBox()
-                      : const CircularProgressIndicator(),
+                  progress.progress == null ? const SizedBox() : const CircularProgressIndicator(),
               errorWidget: (context, url, error) => Image.network(
                   'http://blacktaxandwhitebenefits.com/wp-content/uploads/2016/11/hand-1917895_1920.jpg'),
             ),
@@ -188,8 +181,7 @@ class AboutPage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Html(
           data: resourcesHtml,
-          onLinkTap: (String? url, _, __) =>
-              launchUrl(Uri.dataFromString(url!)),
+          onLinkTap: (String? url, _, __) => launchUrl(Uri.dataFromString(url!)),
         ),
       );
 }
